@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI工具整合网站 - 探索各类人工智能内容生成工具">
+    <meta name="keywords" content="AI, AIGC, 人工智能, 工具, ChatGPT, Midjourney">
+    <meta name="author" content="数字媒体技术课程小组">
+    <title>AI工具导航 | 智能内容生成工具大全</title>
+    
+    <!-- 特殊字体：使用Google Fonts中的中文字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    
+    <!-- CDN图标库：Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 主样式文件 -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- 网站图标 -->
+    <link rel="icon" href="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/svg/1f9e0.svg" type="image/svg+xml">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>AI工具导航</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="text-tools.html"><i class="fas fa-keyboard"></i> 文字AI工具</a></li>
+                    <li><a href="image-tools.html"><i class="fas fa-palette"></i> 图像AI工具</a></li>
+                    <li><a href="video-tools.html"><i class="fas fa-video"></i> 视频/音频AI工具</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container">
+        <!-- 作品名称和简介 -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="special-font">智能内容生成(AIGC)工具整合平台</h2>
+                <p>探索当前最前沿的人工智能内容生成技术，一站式了解各类AI工具的应用场景、功能特点和使用方法。</p>
+                <a href="#tools-overview" class="btn-primary">探索工具</a>
+            </div>
+            <div class="hero-image">
+                <!-- 图片1：AI概念图 -->
+                <img src="../assets/images/pic1.jpg" 
+                     alt="人工智能概念图" 
+                     width="600" 
+                     height="400">
+                <p class="image-caption">图1: AI神经网络可视化 | 来源: Unsplash</p>
+            </div>
+        </section>
+
+        <!-- 音频部分 -->
+        <section class="audio-section">
+            <h2><i class="fas fa-music"></i> AI发展简史音频介绍</h2>
+            <div class="audio-container">
+                <audio controls>
+                    <source src="../assets/audio/audio1.MP3" type="audio/mpeg">
+                    您的浏览器不支持HTML5音频标签，请升级浏览器。
+                </audio>
+                <p class="audio-description">这段音频简要介绍了人工智能从诞生到AIGC时代的发展历程。</p>
+            </div>
+        </section>
+
+        <!-- AI工具概览表格 -->
+        <section id="tools-overview" class="table-section">
+            <h2><i class="fas fa-table"></i> 主流AI工具分类概览</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>工具类型</th>
+                            <th>代表工具</th>
+                            <th>主要功能</th>
+                            <th>适用场景</th>
+                            <th>访问方式</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>文字生成</td>
+                            <td>ChatGPT, Claude, 文心一言</td>
+                            <td>对话、写作、翻译、代码生成</td>
+                            <td>内容创作、客服、编程辅助</td>
+                            <td>网页/API</td>
+                        </tr>
+                        <tr>
+                            <td>图像生成</td>
+                            <td>Midjourney, DALL-E, Stable Diffusion</td>
+                            <td>文生图、图生图、图像编辑</td>
+                            <td>艺术创作、设计、营销素材</td>
+                            <td>网页/客户端</td>
+                        </tr>
+                        <tr>
+                            <td>音频生成</td>
+                            <td>Murf, Resemble.ai, 阿里语音</td>
+                            <td>语音合成、音乐生成、音效创作</td>
+                            <td>有声内容、配音、游戏开发</td>
+                            <td>网页/API</td>
+                        </tr>
+                        <tr>
+                            <td>视频生成</td>
+                            <td>Runway, Synthesia, D-ID</td>
+                            <td>文生视频、数字人、视频编辑</td>
+                            <td>短视频、教育内容、虚拟主播</td>
+                            <td>网页/软件</td>
+                        </tr>
+                        <tr>
+                            <td>代码生成</td>
+                            <td>GitHub Copilot, Codeium, Tabnine</td>
+                            <td>代码补全、调试、文档生成</td>
+                            <td>软件开发、学习编程</td>
+                            <td>插件/客户端</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-caption">表1: 当前主流AI工具分类及特点对比</p>
+        </section>
+
+        <!-- 图片展示区域 -->
+        <section class="gallery-section">
+            <h2><i class="fas fa-images"></i> AI生成作品展示</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <!-- 图片2：AI生成艺术 -->
+                    <img src="../assets/images/pic2.jpg" 
+                         alt="AI生成数字艺术" 
+                         width="400" 
+                         height="300">
+                    <p>图2: AI生成数字艺术 | 来源: Unsplash</p>
+                </div>
+                <div class="gallery-item">
+                    <!-- 图片3：AI界面 -->
+                    <img src="../assets/images/pic3.jpg" 
+                         alt="AI工具用户界面" 
+                         width="400" 
+                         height="300">
+                    <p>图3: AI工具操作界面 | 来源: Unsplash</p>
+                </div>
+                <div class="gallery-item">
+                    <!-- 图片4：AI与人类协作 -->
+                    <img src="../assets/images/pic4.jpg" 
+                         alt="AI与人类协作" 
+                         width="400" 
+                         height="300">
+                    <p>图4: 人类与AI协同创作 | 来源: Unsplash</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 列表：AI工具选择指南 -->
+        <section class="list-section">
+            <h2><i class="fas fa-list-check"></i> AI工具选择五步法</h2>
+            <div class="list-container">
+                <div class="list-box">
+                    <h3><i class="fas fa-1"></i> 明确需求</h3>
+                    <ul>
+                        <li>确定内容类型（文字、图像、音频、视频）</li>
+                        <li>明确使用场景（工作、学习、创作）</li>
+                        <li>评估预算（免费/付费工具）</li>
+                        <li>考虑技术要求（是否需要编程能力）</li>
+                    </ul>
+                </div>
+                <div class="list-box">
+                    <h3><i class="fas fa-2"></i> 调研工具</h3>
+                    <ol>
+                        <li>查看官方文档和教程</li>
+                        <li>阅读用户评价和案例</li>
+                        <li>比较功能相似的工具</li>
+                        <li>测试免费版本或试用期</li>
+                    </ol>
+                </div>
+                <div class="list-box">
+                    <h3><i class="fas fa-3"></i> 实践测试</h3>
+                    <ul>
+                        <li>创建测试账户</li>
+                        <li>尝试核心功能</li>
+                        <li>评估输出质量</li>
+                        <li>检查处理速度</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 视频部分 -->
+        <section class="video-section">
+            <h2><i class="fas fa-play-circle"></i> AIGC技术介绍视频</h2>
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video controls poster="../assets/images/poster1.png">
+                        <source src="../assets/video/aigc-intro.mp4" type="video/mp4">
+                        您的浏览器不支持HTML5视频标签，请升级浏览器。
+                    </video>
+                </div>
+                <p class="video-description">视频: AIGC技术原理与应用前景介绍</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于本项目</h3>
+                    <p>《数字智能媒体技术》课程结课作品</p>
+                    <p>主题：智能内容生成(AIGC)工具整合网站</p>
+                </div>
+                <div class="footer-section">
+                    <h3>素材来源声明</h3>
+                    <ul>
+                        <li>图片：Unsplash免费图库</li>
+                        <li>音频：SoundHelix示例音频</li>
+                        <li>视频：Blender Foundation示例视频</li>
+                        <li>图标：Font Awesome图标库</li>
+                        <li>字体：Google Fonts中文字体</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>课程信息</h3>
+                    <p>课程名称：数字智能媒体技术</p>
+                    <p>提交时间：2026年1月18日</p>
+                    <p>小组成员：请在此处填写组员信息</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 数字媒体技术课程小组 | 本网站为课程作业作品，所有素材仅用于教学展示</p>
+                <p>网站遵循语义化HTML5标准开发，采用响应式设计，兼容主流浏览器</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for mobile menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav ul');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('show');
+                this.setAttribute('aria-expanded', 
+                    this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+            });
+            
+            // Close menu when clicking on a link
+            document.querySelectorAll('.main-nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('show');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
