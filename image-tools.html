@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="图像AI工具介绍 - Midjourney、DALL-E、Stable Diffusion等">
+    <title>图像AI工具 | AI工具导航</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 图像页面特定样式 */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            color: #1a237e;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* 图像页面特殊卡片 */
+        .ai-art-showcase {
+            background: linear-gradient(135deg, rgba(123, 31, 162, 0.05), rgba(156, 39, 176, 0.05));
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(156, 39, 176, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-art-showcase:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #7b1fa2, #9c27b0);
+        }
+        
+        /* 提示词区域美化 */
+        .prompt-mastery {
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.05), rgba(156, 39, 176, 0.05));
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2.5rem 0;
+            border: 1px solid rgba(233, 30, 99, 0.1);
+        }
+        
+        .prompt-level {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border-top: 4px solid #9c27b0;
+        }
+        
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(156, 39, 176, 0.15);
+        }
+        
+        .level-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        /* 风格卡片 */
+        .style-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .style-item {
+            background: white;
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(156, 39, 176, 0.1);
+        }
+        
+        .style-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.15);
+        }
+        
+        .style-icon {
+            font-size: 2.2rem;
+            color: #9c27b0;
+            background: rgba(156, 39, 176, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+        }
+        
+        /* 参数控制区域 */
+        .parameter-controls {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.05), rgba(156, 39, 176, 0.05));
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2.5rem 0;
+        }
+        
+        .parameter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .param-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .param-name {
+            font-weight: 600;
+            color: #7b1fa2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .param-value {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* 图像卡片美化 */
+        .ai-image-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-image-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(156, 39, 176, 0.15);
+        }
+        
+        .ai-image-preview {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .ai-image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .ai-image-card:hover .ai-image-preview img {
+            transform: scale(1.1);
+        }
+        
+        .ai-image-meta {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-tool-badge {
+            display: inline-block;
+            background: rgba(156, 39, 176, 0.1);
+            color: #7b1fa2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            align-self: flex-start;
+        }
+        
+        /* 工具特色卡片 */
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #7b1fa2;
+            background: rgba(156, 39, 176, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        /* 星级评分特殊处理 */
+        .rating-stars {
+            color: #FFC107;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .prompt-level, .style-gallery, .parameter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-art-showcase {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>AI工具导航</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="text-tools.html"><i class="fas fa-keyboard"></i> 文字AI工具</a></li>
+                    <li><a href="image-tools.html" class="active"><i class="fas fa-palette"></i> 图像AI工具</a></li>
+                    <li><a href="video-tools.html"><i class="fas fa-video"></i> 视频/音频AI工具</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title special-font">智能图像AI工具</h1>
+        
+        <!-- 统计数据卡片 -->
+     <!-- 替换原来的统计卡片 -->
+<div class="stat-card-unified" style="--stat-color-1: #7b1fa2; --stat-color-2: #9c27b0; --stat-highlight: #e1bee7;">
+    <div class="stat-number-unified">1.2B+</div>
+    <div class="stat-label-unified">AI生成图像日均创作量</div>
+</div>
+        
+        <!-- 介绍部分 -->
+        <section class="image-hero">
+            <div class="image-hero-content">
+                <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+                    <h2 style="color: #7b1fa2;"><i class="fas fa-magic"></i> AI图像生成革命</h2>
+                    <p>AI图像生成工具通过文本描述创作出令人惊叹的视觉艺术作品，彻底改变了数字创作的方式。从概念艺术到商业设计，这些工具为创作者提供了无限可能。</p>
+                </div>
+                <div class="tool-tags">
+                    <span class="tool-tag">文生图</span>
+                    <span class="tool-tag">图生图</span>
+                    <span class="tool-tag">风格迁移</span>
+                    <span class="tool-tag">图像扩展</span>
+                    <span class="tool-tag">局部重绘</span>
+                    <span class="tool-tag">超分辨率</span>
+                </div>
+                <a href="#ai-images" class="btn-secondary">探索AI艺术 <i class="fas fa-arrow-down"></i></a>
+            </div>
+            <div class="image-hero-visual">
+                <img src="pic6.png" 
+                     alt="AI生成艺术" 
+                     style="width: 100%; border-radius: 16px; box-shadow: 0 10px 30px rgba(123, 31, 162, 0.2);">
+                <p class="image-caption">AI生成数字艺术作品 | 来源: 豆包</p>
+            </div>
+        </section>
+        
+        <!-- 主流工具介绍 -->
+        <section class="tool-intro">
+            <div class="section-header">
+                <h2><i class="fas fa-tools"></i> 主流图像AI工具</h2>
+                <p>探索当前最强大的AI图像生成平台，每个工具都有其独特的优势和应用场景</p>
+            </div>
+            
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #7b1fa2, #9c27b0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Midjourney</h3>
+                    <p>艺术风格突出，社区活跃，适合创意艺术创作，以其独特的审美风格著称。</p>
+                    <ul class="mini-list">
+                        <li>艺术风格：卓越</li>
+                        <li>使用平台：Discord</li>
+                        <li>价格区间：$10-$120/月</li>
+                        <li>学习曲线：中等</li>
+                    </ul>
+                    <a href="https://www.midjourney.com" target="_blank" class="btn-secondary" style="background: linear-gradient(135deg, #7b1fa2, #9c27b0);">访问官网 <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                
+                <div class="tool-card comparison-highlight" style="border-color: #2196f3;">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #1976d2, #2196f3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <i class="fa-solid fa-face-smile"></i>
+                    </div>
+                    <h3>DALL-E 3</h3>
+                    <p>OpenAI开发，理解能力强，与ChatGPT集成，文本理解能力行业领先。</p>
+                    <ul class="mini-list">
+                        <li>文本理解：优秀</li>
+                        <li>集成生态：ChatGPT</li>
+                        <li>价格：包含在ChatGPT+</li>
+                        <li>易用性：简单</li>
+                    </ul>
+                    <a href="https://openai.com/dall-e-3" target="_blank" class="btn-secondary" style="background: linear-gradient(135deg, #1976d2, #2196f3);">访问官网 <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ff9800, #ff5722); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Stable Diffusion</h3>
+                    <p>开源免费，可本地部署，自定义程度高，拥有强大的社区模型生态。</p>
+                    <ul class="mini-list">
+                        <li>开源程度：完全开源</li>
+                        <li>自定义性：极高</li>
+                        <li>部署方式：本地/云端</li>
+                        <li>社区生态：丰富</li>
+                    </ul>
+                    <a href="https://stability.ai" target="_blank" class="btn-secondary" style="background: linear-gradient(135deg, #ff9800, #ff5722);">访问官网 <i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- AI生成作品展示 -->
+        <section id="ai-images" class="ai-art-showcase">
+            <div class="section-header">
+                <h2 style="color: #7b1fa2;"><i class="fas fa-images"></i> AI图像生成作品展示</h2>
+                <p>探索AI艺术创作的无限可能 - 以下作品均由AI图像生成工具创作</p>
+            </div>
+            
+            <div class="ai-image-grid">
+                <div class="ai-image-card">
+                    <div class="ai-image-preview">
+                        <img src="pic7.jpg" 
+                             alt="奇幻风景">
+                    </div>
+                    <div class="ai-image-meta">
+                        <span class="ai-tool-badge">Midjourney</span>
+                        <h4>奇幻森林景观</h4>
+                        <p>充满魔法的森林场景，发光植物和神秘生物共存的幻想世界。</p>
+                        <div class="prompt-hint">
+                            <small><i class="fas fa-quote-left"></i> epic fantasy landscape with glowing crystals and magical creatures, cinematic lighting</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-image-card">
+                    <div class="ai-image-preview">
+                        <img src="pic8.jpg" 
+                             alt="未来城市">
+                    </div>
+                    <div class="ai-image-meta">
+                        <span class="ai-tool-badge">DALL-E 3</span>
+                        <h4>赛博朋克都市</h4>
+                        <p>未来主义城市夜景，霓虹灯光和全息广告交织的科幻场景。</p>
+                        <div class="prompt-hint">
+                            <small><i class="fas fa-quote-left"></i> futuristic cyberpunk city at night, neon lights, rainy streets, cinematic</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-image-card">
+                    <div class="ai-image-preview">
+                        <img src="pic9.jpg" 
+                             alt="肖像艺术">
+                    </div>
+                    <div class="ai-image-meta">
+                        <span class="ai-tool-badge">Stable Diffusion</span>
+                        <h4>数字艺术肖像</h4>
+                        <p>融合花卉元素的女性数字肖像，展示AI在人物创作上的艺术表现力。</p>
+                        <div class="prompt-hint">
+                            <small><i class="fas fa-quote-left"></i> digital portrait of a woman with floral elements, intricate details, artstation</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 提示词技巧 -->
+        <section class="prompt-mastery">
+            <div class="section-header">
+                <h2 style="color: #e91e63;"><i class="fas fa-keyboard"></i> AI图像提示词技巧</h2>
+                <p>掌握提示词艺术是获得理想图像的关键，不同级别的提示词策略</p>
+            </div>
+            
+            <div class="prompt-level">
+                <div class="level-card">
+                    <div class="level-badge">初级入门</div>
+                    <h4>基础描述</h4>
+                    <p>简单的主题描述，AI自由发挥空间大，结果不可预测性高。</p>
+                    <div class="prompt-box">
+                        "a cat in a garden"
+                    </div>
+                    <ul class="mini-list">
+                        <li>优点：简单直接</li>
+                        <li>缺点：结果随机</li>
+                        <li>适用：快速创意</li>
+                    </ul>
+                </div>
+                
+                <div class="level-card">
+                    <div class="level-badge" style="background: linear-gradient(135deg, #2196f3, #03a9f4);">中级进阶</div>
+                    <h4>结构化描述</h4>
+                    <p>包含主题、风格、细节和参数的结构化提示词，结果更可控。</p>
+                    <div class="prompt-box">
+                        "A majestic dragon sleeping on a treasure hoard, digital painting, fantasy art, highly detailed, dramatic lighting, 8k resolution"
+                    </div>
+                    <ul class="mini-list">
+                        <li>优点：控制性强</li>
+                        <li>缺点：需要学习</li>
+                        <li>适用：专业创作</li>
+                    </ul>
+                </div>
+                
+                <div class="level-card">
+                    <div class="level-badge" style="background: linear-gradient(135deg, #ff9800, #ff5722);">高级精通</div>
+                    <h4>专业级提示</h4>
+                    <p>包含艺术风格、构图、光线、材质等专业参数的精准控制。</p>
+                    <div class="prompt-box">
+                        "Photorealistic portrait of an elderly samurai, studio lighting, cinematic, 85mm lens, f/1.8, detailed skin texture, film grain, masterpiece"
+                    </div>
+                    <ul class="mini-list">
+                        <li>优点：精准控制</li>
+                        <li>缺点：复杂耗时</li>
+                        <li>适用：商业项目</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 艺术风格参考 -->
+        <section class="tool-intro">
+            <div class="section-header">
+                <h2><i class="fas fa-palette"></i> 常用艺术风格参考</h2>
+                <p>不同的艺术风格关键词可以极大影响AI生成图像的表现形式</p>
+            </div>
+            
+            <div class="style-gallery">
+                <div class="style-item">
+                    <div class="style-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h4>写实摄影</h4>
+                    <p>photorealistic, 8k, professional photography</p>
+                    <div class="style-tags">
+                        <small>#写实 #高清 #专业</small>
+                    </div>
+                </div>
+                <div class="style-item">
+                    <div class="style-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h4>油画艺术</h4>
+                    <p>oil painting, impasto, van gogh style</p>
+                    <div class="style-tags">
+                        <small>#古典 #艺术 #油画</small>
+                    </div>
+                </div>
+                <div class="style-item">
+                    <div class="style-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <h4>水彩风格</h4>
+                    <p>watercolor painting, soft edges, translucent</p>
+                    <div class="style-tags">
+                        <small>#清新 #柔和 #艺术</small>
+                    </div>
+                </div>
+                <div class="style-item">
+                    <div class="style-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h4>电影感</h4>
+                    <p>cinematic, dramatic lighting, film still</p>
+                    <div class="style-tags">
+                        <small>#电影 #戏剧 #光影</small>
+                    </div>
+                </div>
+                <div class="style-item">
+                    <div class="style-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h4>像素艺术</h4>
+                    <p>pixel art, retro, 8-bit, video game style</p>
+                    <div class="style-tags">
+                        <small>#复古 #游戏 #像素</small>
+                    </div>
+                </div>
+                <div class="style-item">
+                    <div class="style-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h4>中国风</h4>
+                    <p>Chinese ink painting, traditional style</p>
+                    <div class="style-tags">
+                        <small>#传统 #水墨 #东方</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 工具对比表格 -->
+        <section class="tool-intro">
+            <div class="section-header">
+                <h2><i class="fas fa-balance-scale"></i> 图像AI工具对比</h2>
+                <p>全面比较主流图像AI工具的特点和适用场景，助您做出明智选择</p>
+            </div>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>工具名称</th>
+                            <th>生成质量</th>
+                            <th>风格多样性</th>
+                            <th>学习曲线</th>
+                            <th>控制精度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Midjourney</strong></td>
+                            <td class="rating-stars">★★★★★</td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td>中等</td>
+                            <td>中等</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DALL-E 3</strong></td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td class="rating-stars">★★★★★</td>
+                            <td>简单</td>
+                            <td>较高</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Stable Diffusion</strong></td>
+                            <td class="rating-stars">★★★☆☆</td>
+                            <td class="rating-stars">★★★★★</td>
+                            <td>陡峭</td>
+                            <td>极高</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adobe Firefly</strong></td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td class="rating-stars">★★★☆☆</td>
+                            <td>简单</td>
+                            <td>中等</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leonardo.ai</strong></td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td>中等</td>
+                            <td>高</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 核心功能特性 -->
+        <section class="features-list">
+            <div class="section-header">
+                <h2 style="color: #7b1fa2;"><i class="fas fa-cogs"></i> 图像AI核心功能</h2>
+                <p>现代图像AI工具提供的不仅仅是图像生成，而是一整套创意工作流程</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #7b1fa2; background: rgba(156, 39, 176, 0.1);">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h3>文生图</h3>
+                    <p>通过文字描述生成图像，最基础也是最强大的功能，将想象力可视化。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #7b1fa2; background: rgba(156, 39, 176, 0.1);">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>图生图</h3>
+                    <p>基于现有图像生成新图像，可用于风格迁移、重绘和创意延伸。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #7b1fa2; background: rgba(156, 39, 176, 0.1);">
+                        <i class="fas fa-expand-alt"></i>
+                    </div>
+                    <h3>图像扩展</h3>
+                    <p>智能扩展图像边界，填充缺失部分，突破原始构图限制。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #7b1fa2; background: rgba(156, 39, 176, 0.1);">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>局部重绘</h3>
+                    <p>修改图像的特定区域而不影响其他部分，实现精准编辑控制。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #7b1fa2; background: rgba(156, 39, 176, 0.1);">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>图像融合</h3>
+                    <p>将多张图像或概念融合成新图像，创造独特的合成效果。</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #7b1fa2; background: rgba(156, 39, 176, 0.1);">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>参数控制</h3>
+                    <p>调整种子值、步数、引导尺度等参数，精确控制生成过程。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 参数控制指南 -->
+        <section class="parameter-controls">
+            <div class="section-header">
+                <h2 style="color: #2196f3;"><i class="fas fa-tune"></i> 关键生成参数</h2>
+                <p>理解这些核心参数，让您更精确地控制AI图像生成结果</p>
+            </div>
+            
+            <div class="parameter-grid">
+                <div class="param-card">
+                    <div class="param-name">引导尺度 (Guidance Scale)</div>
+                    <div class="param-value">控制AI遵循提示词的程度。值越高，结果越符合提示但可能缺乏创意。</div>
+                    <div class="param-range">推荐: 7-12</div>
+                </div>
+                
+                <div class="param-card">
+                    <div class="param-name">生成步数 (Steps)</div>
+                    <div class="param-value">生成过程的迭代次数。步数越多，细节越丰富，但耗时更长。</div>
+                    <div class="param-range">推荐: 20-50</div>
+                </div>
+                
+                <div class="param-card">
+                    <div class="param-name">种子值 (Seed)</div>
+                    <div class="param-value">生成过程的随机种子。相同种子+相同参数=相同结果。</div>
+                    <div class="param-range">作用: 结果复现</div>
+                </div>
+                
+                <div class="param-card">
+                    <div class="param-name">采样器 (Sampler)</div>
+                    <div class="param-value">影响生成质量和速度的算法。不同采样器有不同特点。</div>
+                    <div class="param-range">常用: DPM++ 2M</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 工作流程步骤 -->
+        <section class="workflow-steps">
+            <div class="section-header">
+                <h2><i class="fas fa-project-diagram"></i> AI图像创作工作流程</h2>
+                <p>从灵感到成品的完整创作过程，系统化的工作方法提升创作效率</p>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>创意构思</h4>
+                        <p>明确创作主题、风格和目标，收集参考素材和灵感来源。</p>
+                        <ul class="mini-list">
+                            <li>确定主题和概念</li>
+                            <li>收集视觉参考</li>
+                            <li>明确使用场景</li>
+                            <li>设定风格方向</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>提示词设计</h4>
+                        <p>编写结构化提示词，包含主题、风格、构图、光线等关键要素。</p>
+                        <ul class="mini-list">
+                            <li>主题描述清晰</li>
+                            <li>添加风格关键词</li>
+                            <li>设置构图和光线</li>
+                            <li>包含质量参数</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>批量生成与筛选</h4>
+                        <p>使用不同参数批量生成多个版本，筛选最有潜力的结果。</p>
+                        <ul class="mini-list">
+                            <li>调整参数组合</li>
+                            <li>生成多个变体</li>
+                            <li>初步筛选评估</li>
+                            <li>选择最佳候选</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>后期优化</h4>
+                        <p>使用AI和传统工具进行后期处理，完善细节和整体效果。</p>
+                        <ul class="mini-list">
+                            <li>AI工具优化</li>
+                            <li>传统软件精修</li>
+                            <li>细节增强</li>
+                            <li>最终调整输出</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 返回首页 -->
+        <section class="back-to-home">
+            <a href="index.html" class="btn-primary">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </section>
+    </main>
+<!-- 左侧浮动返回首页按钮 -->
+<div class="floating-home-btn" id="floatingHomeBtn">
+    <a href="index.html" title="返回首页">
+        <i class="btn-icon fas fa-home"></i>
+        <span class="btn-text">返回<br>首页</span>
+    </a>
+</div>
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 数字媒体技术课程小组 | 图像AI工具页面</p>
+                <p><i class="fas fa-info-circle"></i> 注：所有展示图像均为示例，实际AI生成效果可能有所不同</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动菜单功能
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav ul');
+            
+            if (mobileMenuBtn && mainNav) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mainNav.classList.toggle('show');
+                    this.setAttribute('aria-expanded', 
+                        this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+                });
+                
+                // 点击链接关闭菜单
+                document.querySelectorAll('.main-nav a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mainNav.classList.remove('show');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+            
+            // 平滑滚动
+            document.querySelector('a[href="#ai-images"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#ai-images').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 图片卡片交互增强
+            document.querySelectorAll('.ai-image-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-12px) rotate(1deg)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-10px) rotate(0deg)';
+                });
+            });
+            
+            // 风格卡片交互
+            document.querySelectorAll('.style-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.style-icon');
+                    icon.style.transform = 'scale(1.1)';
+                    icon.style.backgroundColor = 'rgba(156, 39, 176, 0.2)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.style-icon');
+                    icon.style.transform = 'scale(1)';
+                    icon.style.backgroundColor = 'rgba(156, 39, 176, 0.1)';
+                });
+            });
+        });
+ // 浮动返回按钮控制 - 增强版
+document.addEventListener('DOMContentLoaded', function() {
+    const floatingBtn = document.getElementById('floatingHomeBtn');
+    const floatingLink = document.querySelector('.floating-home-btn-link');
+    
+    if (floatingBtn && floatingLink) {
+        let lastScrollTop = 0;
+        let ticking = false;
+        
+        function updateButtonVisibility() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+            
+            if (scrollPercent > 15) {
+                floatingBtn.classList.add('show');
+                floatingBtn.classList.remove('hide');
+                
+                // 添加上滑/下滑方向指示
+                if (scrollTop > lastScrollTop) {
+                    // 向下滚动
+                    floatingBtn.style.transform = 'translateY(-50%) translateY(10px)';
+                } else {
+                    // 向上滚动
+                    floatingBtn.style.transform = 'translateY(-50%)';
+                }
+            } else {
+                floatingBtn.classList.remove('show');
+                floatingBtn.classList.add('hide');
+            }
+            
+            lastScrollTop = scrollTop;
+            ticking = false;
+        }
+        
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(updateButtonVisibility);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', onScroll);
+        
+        // 页面加载后延迟显示
+        setTimeout(() => {
+            updateButtonVisibility();
+        }, 800);
+        
+        // 点击效果 - 添加涟漪效果
+        floatingLink.addEventListener('click', function(e) {
+            // 创建涟漪元素
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = e.clientX - rect.left - size/2 + 'px';
+            ripple.style.top = e.clientY - rect.top - size/2 + 'px';
+            ripple.classList.add('ripple-effect');
+            
+            this.appendChild(ripple);
+            
+            // 移除涟漪元素
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+        
+        // 添加触摸反馈
+        floatingLink.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        floatingLink.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+        
+        // 添加键盘导航支持
+        floatingLink.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            }
+        });
+    }
+});
+    </script>
+</body>
+</html>

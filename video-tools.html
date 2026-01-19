@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="视频/音频AI工具介绍 - Runway、Synthesia、Murf.ai等">
+    <title>视频/音频AI工具 | AI工具导航</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 视频/音频页面特定样式 */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            color: #1a237e;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* 视频页面特殊卡片 */
+        .media-showcase {
+            background: linear-gradient(135deg, rgba(0, 150, 136, 0.05), rgba(76, 175, 80, 0.05));
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid rgba(0, 150, 136, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .media-showcase:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00796b, #009688);
+        }
+        
+        /* 演示卡片美化 */
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 150, 136, 0.15);
+        }
+        
+        .demo-media {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            background: #1a237e;
+        }
+        
+        .demo-media video,
+        .demo-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .demo-card:hover .demo-media video,
+        .demo-card:hover .demo-media img {
+            transform: scale(1.1);
+        }
+        
+        .demo-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 150, 136, 0.9);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .demo-media:hover .demo-play-btn {
+            opacity: 1;
+        }
+        
+        .demo-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .demo-tag {
+            display: inline-block;
+            background: rgba(0, 150, 136, 0.1);
+            color: #00796b;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            align-self: flex-start;
+        }
+        
+        /* 音频样本美化 */
+        .audio-sample {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid #009688;
+        }
+        
+        .audio-sample:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 150, 136, 0.1);
+        }
+        
+        .audio-icon {
+            font-size: 2.5rem;
+            color: #009688;
+            background: rgba(0, 150, 136, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .audio-controls {
+            flex-grow: 1;
+        }
+        
+        .audio-title {
+            font-weight: 600;
+            color: #00796b;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 应用场景卡片 */
+        .application-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0, 150, 136, 0.15);
+        }
+        
+        .application-icon {
+            font-size: 2.5rem;
+            color: #009688;
+            background: rgba(0, 150, 136, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 工作流程步骤 */
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .step-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #00796b, #009688);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 150, 136, 0.3);
+        }
+        
+        /* 工具特色卡片 */
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #00796b;
+            background: rgba(0, 150, 136, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        /* 标签美化 */
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1rem 0 1.5rem;
+        }
+        
+        .tool-tag {
+            background: rgba(0, 150, 136, 0.1);
+            color: #00796b;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 150, 136, 0.3);
+        }
+        
+        .tool-tag:hover {
+            background: #009688;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .demo-grid, .application-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .media-showcase {
+                padding: 1.5rem;
+            }
+            
+            .audio-sample {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>AI工具导航</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="text-tools.html"><i class="fas fa-keyboard"></i> 文字AI工具</a></li>
+                    <li><a href="image-tools.html"><i class="fas fa-palette"></i> 图像AI工具</a></li>
+                    <li><a href="video-tools.html" class="active"><i class="fas fa-video"></i> 视频/音频AI工具</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 页面标题 -->
+        <h1 class="page-title special-font">视频/音频AI工具</h1>
+        
+        <!-- 统计数据卡片 -->
+  <!-- 替换原来的统计卡片 -->
+<div class="stat-card-unified" style="--stat-color-1: #00796b; --stat-color-2: #009688; --stat-highlight: #80cbc4;">
+    <div class="stat-number-unified">80%+</div>
+    <div class="stat-label-unified">企业视频内容将采用AI辅助制作</div>
+</div>
+        
+        <!-- 介绍部分 -->
+        <section class="video-audio-hero">
+            <div class="video-audio-hero-content">
+                <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
+                    <h2 style="color: #00796b;"><i class="fas fa-film"></i> AI重塑影音创作</h2>
+                    <p>AI视频和音频工具正在彻底改变多媒体内容的创作方式。从自动剪辑到智能配音，从文本生成视频到数字人主播，这些工具让专业级影音制作变得更加普惠。</p>
+                </div>
+                <div class="tool-tags">
+                    <span class="tool-tag">视频生成</span>
+                    <span class="tool-tag">语音合成</span>
+                    <span class="tool-tag">智能剪辑</span>
+                    <span class="tool-tag">数字人</span>
+                    <span class="tool-tag">音乐生成</span>
+                    <span class="tool-tag">自动字幕</span>
+                </div>
+                <a href="#demos" class="btn-secondary" style="background: linear-gradient(135deg, #00796b, #009688);">查看演示 <i class="fas fa-arrow-down"></i></a>
+            </div>
+            <div class="video-audio-hero-visual">
+                <div style="position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 150, 136, 0.2);">
+                    <video controls style="width: 100%; border-radius: 16px;">
+                        <source src="video2.mp4" type="video/mp4">
+                        您的浏览器不支持HTML5视频标签。
+                    </video>
+                </div>
+                <p class="image-caption">AI视频生成示例|来源：董良宵</p>
+            </div>
+        </section>
+        
+        <!-- 主流工具介绍 -->
+        <section class="tool-intro">
+            <div class="section-header">
+                <h2><i class="fas fa-tools"></i> 主流视频/音频AI工具</h2>
+                <p>探索当前最先进的AI影音创作平台，每个工具都有其独特的应用场景和优势</p>
+            </div>
+            
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #00796b, #009688); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3>Runway ML</h3>
+                    <p>全面的AI视频创作套件，提供30+种AI工具，包括视频生成、编辑和特效。</p>
+                    <ul class="mini-list">
+                        <li>最新版本：Gen-4.5 GWM-1</li>
+                        <li>核心功能：视频 / 图像创作与后期的全流程</li>
+                        <li>价格区间：$15-$95/月</li>
+                        <li>适用场景：专业创作</li>
+                    </ul>
+                    <a href="https://runwayml.com" target="_blank" class="btn-secondary" style="background: linear-gradient(135deg, #00796b, #009688);">访问官网 <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                
+                <div class="tool-card comparison-highlight" style="border-color: #009688;">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #1976d2, #2196f3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Sora</h3>
+                    <p>OpenAI开发的文生视频模型，能够根据文本提示生成高质量、逼真的视频内容。</p>
+                    <ul class="mini-list">
+                        <li>最新版本：Sora2</li>
+                        <li>核心功能：文本到视频生成</li>
+                        <li>价格区间：$20-$200/月</li>
+                        <li>适用场景：创意视频制作、影视原型</li>
+                    </ul>
+                    <a href="https://sora.chatgpt.com/" target="_blank" class="btn-secondary" style="background: linear-gradient(135deg, #1976d2, #2196f3);">访问官网 <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #ff9800, #ff5722); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        <i class="fas fa-microphone-alt"></i>
+                    </div>
+                    <h3>可灵</h3>
+                    <p>腾讯开发的AI视频生成工具，专注文生视频功能，适合快速创作短视频内容。</p>
+                    <ul class="mini-list">
+                        <li>最新版本：可灵 2.6  可灵 O1</li>
+                        <li>核心功能：文生视频、图生视频</li>
+                        <li>价格区间：￥66-￥1314/月</li>
+                        <li>适用场景：短视频、广告</li>
+                    </ul>
+                    <a href="https://murf.ai" target="_blank" class="btn-secondary" style="background: linear-gradient(135deg, #ff9800, #ff5722);">访问官网 <i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </section>
+        
+<!-- 演示示例 -->
+<section id="demos" class="media-showcase">
+    <div class="section-header">
+        <h2 style="color: #00796b;"><i class="fas fa-play-circle"></i> AI视频/音频演示</h2>
+        <p>体验AI生成的视频和音频内容，感受AI影音创作的魅力</p>
+    </div>
+    
+    <div class="demo-grid">
+        <div class="demo-card">
+            <div class="demo-media">
+                <video poster="poster2.jpg">
+                    <source src="video3.mp4" type="video/mp4">
+                </video>
+                <div class="demo-play-btn">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <div class="demo-info">
+                <span class="demo-tag">文本生成视频</span>
+                <h4>自然景观生成</h4>
+                <p>使用PANDA AI根据文本描述生成的短视频示例，展示AI对自然场景的理解和生成能力。</p>
+                <div class="prompt-hint">
+                    <small><i class="fas fa-quote-left"></i> "A serene mountain landscape with a flowing river at sunset, cinematic, 4k"</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-card">
+            <div class="demo-media">
+                <img src="poster3.jpg" 
+                     alt="数字人演示">
+            </div>
+            <div class="demo-info">
+                <span class="demo-tag">AI数字人</span>
+                <h4>数字人新闻播报</h4>
+                <p>山东广播电视台发布的的数字主持人“海蓝”，支持多语言，适用于企业通讯和新闻发布。</p>
+                <div class="prompt-hint">
+                    <small><i class="fas fa-quote-left"></i> 数字人主播播报企业新闻，专业形象，自然表情和口型同步</small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 空行分隔 -->
+        <div class="spacing-div"></div>
+        
+        <!-- 音频部分 -->
+        <section class="audio-section">
+            <h2><i class="fas fa-music"></i> AI生成音乐</h2>
+            <div class="audio-container">
+                <audio controls>
+                    <source src="audio2.mp3" type="audio/mpeg">
+                    您的浏览器不支持HTML5音频标签，请升级浏览器。
+                </audio>
+                <p class="audio-description">使用AIVA生成的电子背景音乐，适合视频配乐、游戏场景和放松环境。</p>
+            </div>
+        </section>
+    </div>
+</section>
+        
+
+        
+        <!-- 应用场景 -->
+        <section class="tool-intro">
+            <div class="section-header">
+                <h2><i class="fas fa-briefcase"></i> 视频/音频AI应用场景</h2>
+                <p>AI影音工具正在各个行业发挥重要作用，提升效率并创造新的可能性</p>
+            </div>
+            
+            <div class="application-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h4>在线教育</h4>
+                    <p>快速制作教学视频，生成多语言配音，创建互动式学习内容，降低教育内容制作成本。</p>
+                    <div class="app-stats">
+                        <small>效率提升：70%+</small>
+                    </div>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-ad"></i>
+                    </div>
+                    <h4>营销广告</h4>
+                    <p>生成产品演示视频，创建个性化广告，自动化视频制作，提高营销内容产出速度。</p>
+                    <div class="app-stats">
+                        <small>成本降低：60%+</small>
+                    </div>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h4>游戏开发</h4>
+                    <p>生成游戏角色语音，制作过场动画，创建游戏音效，丰富游戏多媒体内容。</p>
+                    <div class="app-stats">
+                        <small>开发加速：50%+</small>
+                    </div>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h4>媒体新闻</h4>
+                    <p>自动生成新闻播报，快速制作新闻视频，多语言内容分发，提高新闻制作效率。</p>
+                    <div class="app-stats">
+                        <small>制作时间：减少80%</small>
+                    </div>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h4>影视制作</h4>
+                    <p>视觉特效制作，场景生成，配音和音效设计，降低影视制作的技术门槛。</p>
+                    <div class="app-stats">
+                        <small>特效成本：降低65%</small>
+                    </div>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4>客户服务</h4>
+                    <p>创建培训视频，生成产品教程，自动化客服内容，提升客户服务质量和一致性。</p>
+                    <div class="app-stats">
+                        <small>培训效率：提升3倍</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 工具对比表格 -->
+        
+        <section class="tool-intro">
+            <div class="section-header">
+                <div> </div>
+                <h2><i class="fas fa-balance-scale"></i> 视频/音频AI工具对比</h2>
+                <p>全面比较主流影音AI工具的特点和适用场景，助您选择最适合的创作平台</p>
+            </div>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>工具名称</th>
+                            <th>核心功能</th>
+                            <th>输出质量</th>
+                            <th>语言支持</th>
+                            <th>易用性</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Runway ML</strong></td>
+                            <td>视频生成/编辑</td>
+                            <td class="rating-stars">★★★★★</td>
+                            <td>英文为主</td>
+                            <td>中等</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Synthesia</strong></td>
+                            <td>数字人视频</td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td>120+语言</td>
+                            <td>简单</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Murf.ai</strong></td>
+                            <td>语音合成</td>
+                            <td class="rating-stars">★★★★★</td>
+                            <td>20+语言</td>
+                            <td>简单</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Descript</strong></td>
+                            <td>视频/音频编辑</td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td>英文为主</td>
+                            <td>简单</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pictory</strong></td>
+                            <td>文本转视频</td>
+                            <td class="rating-stars">★★★☆☆</td>
+                            <td>英文</td>
+                            <td>简单</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AIVA</strong></td>
+                            <td>AI音乐生成</td>
+                            <td class="rating-stars">★★★★☆</td>
+                            <td>无语言限制</td>
+                            <td>简单</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 工作流程 -->
+        <section class="workflow-steps">
+            <div class="section-header">
+                <h2><i class="fas fa-project-diagram"></i> AI视频创作工作流程</h2>
+                <p>系统化的创作流程，从策划到发布的完整指南，提升影音内容创作效率</p>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>策划与脚本</h4>
+                        <p>确定视频主题，编写详细脚本，规划镜头和场景，明确目标受众和核心信息。</p>
+                        <ul class="mini-list">
+                            <li>使用AI工具辅助脚本创作</li>
+                            <li>明确视频目标和受众</li>
+                            <li>制定详细的分镜脚本</li>
+                            <li>规划视觉和音频元素</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>视觉内容生成</h4>
+                        <p>使用AI工具生成或编辑视频画面、图像素材，创建数字人主播和特效内容。</p>
+                        <ul class="mini-list">
+                            <li>使用Runway、Pika生成视频片段</li>
+                            <li>使用Midjourney生成静态图像</li>
+                            <li>使用数字人工具创建主播视频</li>
+                            <li>添加AI生成特效和转场</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>音频内容制作</h4>
+                        <p>生成配音、背景音乐和音效，确保音频质量与视频内容完美匹配。</p>
+                        <ul class="mini-list">
+                            <li>使用Murf、Resemble生成配音</li>
+                            <li>使用AIVA、Soundful生成背景音乐</li>
+                            <li>添加必要的音效增强观看体验</li>
+                            <li>调整音频视频同步</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>剪辑与合成</h4>
+                        <p>将所有素材剪辑合成最终视频，添加转场、特效和字幕，优化观看体验。</p>
+                        <ul class="mini-list">
+                            <li>使用Descript、Runway智能剪辑</li>
+                            <li>添加转场、特效和字幕</li>
+                            <li>调整音频视频同步</li>
+                            <li>色彩校正和画面优化</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>优化与发布</h4>
+                        <p>最终优化并导出发布，生成不同平台的格式版本，添加元数据和字幕文件。</p>
+                        <ul class="mini-list">
+                            <li>进行色彩校正和音频优化</li>
+                            <li>生成不同平台的格式版本</li>
+                            <li>添加元数据和字幕文件</li>
+                            <li>测试在不同设备上的播放效果</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 技术优势 -->
+        <section class="features-list" style="background: linear-gradient(135deg, rgba(33, 150, 243, 0.05), rgba(0, 150, 136, 0.05));">
+            <div class="section-header">
+                <h2 style="color: #00796b;"><i class="fas fa-chart-line"></i> AI视频/音频工具优势</h2>
+                <p>AI影音工具带来的革命性变化，正在重塑多媒体内容的创作和消费方式</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #00796b; background: rgba(0, 150, 136, 0.1);">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>效率提升</h3>
+                    <p>制作时间从数周缩短到数小时，降低专业设备和人员需求，实现批量内容生产。</p>
+                    <ul class="mini-list">
+                        <li>制作时间缩短80%+</li>
+                        <li>降低设备投资成本</li>
+                        <li>实现7×24小时创作</li>
+                        <li>快速迭代和A/B测试</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #00796b; background: rgba(0, 150, 136, 0.1);">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>可及性增强</h3>
+                    <p>降低专业视频制作门槛，支持多语言内容创作，无需专业录音棚和设备。</p>
+                    <ul class="mini-list">
+                        <li>降低制作技术门槛</li>
+                        <li>支持120+语言创作</li>
+                        <li>无需专业录音设备</li>
+                        <li>个人创作者也能出精品</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="color: #00796b; background: rgba(0, 150, 136, 0.1);">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>创意扩展</h3>
+                    <p>突破物理限制的视觉效果，个性化定制内容，快速尝试不同风格，融合多种艺术形式。</p>
+                    <ul class="mini-list">
+                        <li>实现超现实视觉效果</li>
+                        <li>个性化内容定制</li>
+                        <li>快速风格尝试和切换</li>
+                        <li>融合多种艺术形式</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 返回首页 -->
+        <section class="back-to-home">
+            <a href="index.html" class="btn-primary">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </section>
+    </main>
+<!-- 左侧浮动返回首页按钮 -->
+<div class="floating-home-btn" id="floatingHomeBtn">
+    <a href="index.html" title="返回首页">
+        <i class="btn-icon fas fa-home"></i>
+        <span class="btn-text">返回<br>首页</span>
+    </a>
+</div>
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 数字媒体技术课程小组 | 视频/音频AI工具页面</p>
+                <p><i class="fas fa-info-circle"></i> 注：部分演示内容为示例，实际AI生成效果可能有所不同</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动菜单功能
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNav = document.querySelector('.main-nav ul');
+            
+            if (mobileMenuBtn && mainNav) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mainNav.classList.toggle('show');
+                    this.setAttribute('aria-expanded', 
+                        this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+                });
+                
+                // 点击链接关闭菜单
+                document.querySelectorAll('.main-nav a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mainNav.classList.remove('show');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+            
+            // 视频播放按钮功能
+            document.querySelectorAll('.demo-play-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const video = this.parentElement.querySelector('video');
+                    if (video.paused) {
+                        video.play();
+                        this.innerHTML = '<i class="fas fa-pause"></i>';
+                    } else {
+                        video.pause();
+                        this.innerHTML = '<i class="fas fa-play"></i>';
+                    }
+                });
+            });
+            
+            // 视频播放状态同步
+            document.querySelectorAll('.demo-media video').forEach(video => {
+                video.addEventListener('play', function() {
+                    const btn = this.parentElement.querySelector('.demo-play-btn');
+                    btn.innerHTML = '<i class="fas fa-pause"></i>';
+                });
+                
+                video.addEventListener('pause', function() {
+                    const btn = this.parentElement.querySelector('.demo-play-btn');
+                    btn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            });
+            
+            // 平滑滚动
+            document.querySelector('a[href="#demos"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#demos').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 音频播放控制
+            document.querySelectorAll('audio').forEach(audio => {
+                audio.addEventListener('play', function() {
+                    // 暂停其他正在播放的音频
+                    document.querySelectorAll('audio').forEach(otherAudio => {
+                        if (otherAudio !== this && !otherAudio.paused) {
+                            otherAudio.pause();
+                        }
+                    });
+                });
+            });
+            
+            // 应用卡片交互
+            document.querySelectorAll('.application-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.application-icon');
+                    icon.style.transform = 'scale(1.1)';
+                    icon.style.backgroundColor = 'rgba(0, 150, 136, 0.2)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.application-icon');
+                    icon.style.transform = 'scale(1)';
+                    icon.style.backgroundColor = 'rgba(0, 150, 136, 0.1)';
+                });
+            });
+        });
+        
+    </script>
+</body>
+</html>
